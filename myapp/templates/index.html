@@ -1,0 +1,527 @@
+{% extends 'layout/base.html' %}
+{% block title %} Trang chủ {% endblock title %}
+
+{% block content %}
+
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+
+            <!-- section title -->
+            <div class="col-md-12">
+                <div class="section-title">
+                    <h3 class="title">New Products</h3>
+                </div>
+            </div>
+            <!-- /section title -->
+
+            <!-- Products tab & slick -->
+            <div class="col-md-12">
+                <div class="row">
+                    <!-- tab -->
+                    <div class="tab-pane active" id="tab1">
+                        <div class="d-flex align-content-center" data-nav="#slick-nav-1">
+                            <!-- product -->
+                            {% for p in products%}
+                            <div class="product">
+                                <div class="product-img">
+                                    <a href="{{ url_for('product_detail', product_id=p.id ) }}">
+                                        {% if p.image %}
+                                        <img alt="{{ p.name }}" class="img" src="{{ p.image }}">
+                                        {% else %}
+                                        <img alt="{{ p.name }}" class="img w-100"
+                                             src="{{ url_for('static', filename='image/product01.png')}}">
+                                        {% endif %}
+                                    </a>
+                                    <div class="product-label">
+                                        <span class="sale">-30%</span>
+                                        <span class="new">NEW</span>
+                                    </div>
+                                </div>
+                                <div class="product-body">
+                                    <p class="product-category">Category</p>
+                                    <h3 class="product-name"><a href="#">{{ p.name }}</a></h3>
+                                    <h4 class="product-price">{{ p.price }}
+                                        <del class="product-old-price"></del>
+                                    </h4>
+                                    <div class="add-to-cart">
+                                        <button class="btn btn-danger"
+                                                onclick="addToCart({{ p.id }}, '{{ p.name }}', {{ p.price }})"><i
+                                                class="fa fa-shopping-cart"></i> Add to cart
+                                        </button>
+                                        <a class="btn btn-info"
+                                           href="{{ url_for('product_detail', product_id=p.id ) }}">Chi tiết
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <!-- /product -->
+                        </div>
+                        <!-- /tab -->
+                    </div>
+                </div>
+            </div>
+            <!-- Products tab & slick -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->
+
+<!-- HOT DEAL SECTION -->
+<div class="section" id="hot-deal"
+     style="background-image: url( '{{ url_for('static', filename='image/hotdeal.png') }}' ">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="hot-deal">
+                    <ul class="hot-deal-countdown">
+                        <li>
+                            <div>
+                                <h3>02</h3>
+                                <span>Days</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <h3>10</h3>
+                                <span>Hours</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <h3>34</h3>
+                                <span>Mins</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <h3>60</h3>
+                                <span>Secs</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <h2 class="text-uppercase">hot deal this week</h2>
+                    <p>New Collection Up to 50% OFF</p>
+                    <a class="primary-btn cta-btn" href="#">Shop now</a>
+                </div>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /HOT DEAL SECTION -->
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+
+            <!-- section title -->
+            <div class="col-md-12">
+                <div class="section-title">
+                    <h3 class="title">Top selling</h3>
+                    <div class="section-nav">
+                        <ul class="section-tab-nav tab-nav">
+                            <li class="active"><a data-toggle="tab" href="#tab2">Laptops</a></li>
+                            <li><a data-toggle="tab" href="#tab2">Smartphones</a></li>
+                            <li><a data-toggle="tab" href="#tab2">Cameras</a></li>
+                            <li><a data-toggle="tab" href="#tab2">Accessories</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- /section title -->
+
+            <!-- Products tab & slick -->
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="products-tabs">
+                        <!-- tab -->
+                        <div class="tab-pane fade in active" id="tab2">
+                            <div class="products-slick d-flex " data-nav="#slick-nav-2">
+                                <!-- product -->
+                                {% for p in products %}
+                                {% if p.image %}
+                                <div class="product">
+                                    <div class="product-img">
+
+                                        <img alt="" src="{{ url_for('static', filename='image/product06.png') }}">
+                                        <div class="product-label">
+                                            <span class="sale">-30%</span>
+                                            <span class="new">NEW</span>
+                                        </div>
+                                    </div>
+                                    <div class="product-body">
+                                        <p class="product-category">Category</p>
+                                        <h3 class="product-name"><a href="#">{{ p.name }}</a></h3>
+                                        <h4 class="product-price">{{ p.price }}
+                                            <del class="product-old-price">{{ p.price }}</del>
+                                        </h4>
+                                    </div>
+                                    <div class="add-to-cart">
+                                        <button class="add-to-cart-btn"
+                                                onclick="addToCart({{ p.id }}, {{ p.name }}, {{ p.price }})"><i
+                                                class="fa fa-shopping-cart"></i> add to
+                                            cart
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- /product -->
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                        <!-- /tab -->
+                    </div>
+                </div>
+            </div>
+            <!-- /Products tab & slick -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->
+
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-4 col-xs-6">
+                <div class="section-title">
+                    <h4 class="title">Top selling</h4>
+                    <div class="section-nav">
+                        <div class="products-slick-nav" id="slick-nav-3"></div>
+                    </div>
+                </div>
+
+                <div class="products-widget-slick" data-nav="#slick-nav-3">
+                    <div>
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+
+                                <img alt="" src="{{ url_for('static', filename='image/product07.png')}}">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Category</p>
+                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                                <h4 class="product-price">$980.00
+                                    <del class="product-old-price">$990.00</del>
+                                </h4>
+                            </div>
+                        </div>
+                        <!-- /product widget -->
+
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <img alt="" src="{{ url_for('static', filename='image/product08.png')}}">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Category</p>
+                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                                <h4 class="product-price">$980.00
+                                    <del class="product-old-price">$990.00</del>
+                                </h4>
+                            </div>
+                        </div>
+                        <!-- /product widget -->
+
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <img alt="" src="{{ url_for('static', filename='image/product09.png')}}">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Category</p>
+                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                                <h4 class="product-price">$980.00
+                                    <del class="product-old-price">$990.00</del>
+                                </h4>
+                            </div>
+                        </div>
+                        <!-- product widget -->
+                    </div>
+
+                    <div>
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <img alt="" src="{{ url_for('static', filename='image/product01.png')}}">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Category</p>
+                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                                <h4 class="product-price">$980.00
+                                    <del class="product-old-price">$990.00</del>
+                                </h4>
+                            </div>
+                        </div>
+                        <!-- /product widget -->
+
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <img alt="" src="{{ url_for('static', filename='image/product02.png')}}">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Category</p>
+                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                                <h4 class="product-price">$980.00
+                                    <del class="product-old-price">$990.00</del>
+                                </h4>
+                            </div>
+                        </div>
+                        <!-- /product widget -->
+
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <img alt="" src="{{ url_for('static', filename='image/product03.png')}}">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Category</p>
+                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                                <h4 class="product-price">$980.00
+                                    <del class="product-old-price">$990.00</del>
+                                </h4>
+                            </div>
+                        </div>
+                        <!-- product widget -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-xs-6">
+                <div class="section-title">
+                    <h4 class="title">Top selling</h4>
+                    <div class="section-nav">
+                        <div class="products-slick-nav" id="slick-nav-4"></div>
+                    </div>
+                </div>
+
+                <div class="products-widget-slick" data-nav="#slick-nav-4">
+                    <div>
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <!--                                <img alt="" src=",3.png')}}">-->
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Category</p>
+                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                                <h4 class="product-price">$980.00
+                                    <del class="product-old-price">$990.00</del>
+                                </h4>
+                            </div>
+                        </div>
+                        <!-- /product widget -->
+
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <img alt="" src="{{ url_for('static', filename='image/product05.png')}}">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Category</p>
+                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                                <h4 class="product-price">$980.00
+                                    <del class="product-old-price">$990.00</del>
+                                </h4>
+                            </div>
+                        </div>
+                        <!-- /product widget -->
+
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <img alt="" src="{{ url_for('static', filename='image/product06.png')}}">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Category</p>
+                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                                <h4 class="product-price">$980.00
+                                    <del class="product-old-price">$990.00</del>
+                                </h4>
+                            </div>
+                        </div>
+                        <!-- product widget -->
+                    </div>
+
+                    <div>
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <img alt="" src="{{ url_for('static', filename='image/product07.png')}}">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Category</p>
+                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                                <h4 class="product-price">$980.00
+                                    <del class="product-old-price">$990.00</del>
+                                </h4>
+                            </div>
+                        </div>
+                        <!-- /product widget -->
+
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <img alt="" src="{{ url_for('static', filename='image/product08.png')}}">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Category</p>
+                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                                <h4 class="product-price">$980.00
+                                    <del class="product-old-price">$990.00</del>
+                                </h4>
+                            </div>
+                        </div>
+                        <!-- /product widget -->
+
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <img alt="" src="{{ url_for('static', filename='image/product09.png')}}">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Category</p>
+                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                                <h4 class="product-price">$980.00
+                                    <del class="product-old-price">$990.00</del>
+                                </h4>
+                            </div>
+                        </div>
+                        <!-- product widget -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix visible-sm visible-xs"></div>
+
+            <div class="col-md-4 col-xs-6">
+                <div class="section-title">
+                    <h4 class="title">Top selling</h4>
+                    <div class="section-nav">
+                        <div class="products-slick-nav" id="slick-nav-5"></div>
+                    </div>
+                </div>
+
+                <div class="products-widget-slick" data-nav="#slick-nav-5">
+                    <div>
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <img alt="" src="{{ url_for('static', filename='image/product01.png')}}">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Category</p>
+                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                                <h4 class="product-price">$980.00
+                                    <del class="product-old-price">$990.00</del>
+                                </h4>
+                            </div>
+                        </div>
+                        <!-- /product widget -->
+
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <img alt="" src="{{ url_for('static', filename='image/product02.png')}}">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Category</p>
+                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                                <h4 class="product-price">$980.00
+                                    <del class="product-old-price">$990.00</del>
+                                </h4>
+                            </div>
+                        </div>
+                        <!-- /product widget -->
+
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <img alt="" src="{{ url_for('static', filename='image/product06.png')}}">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Category</p>
+                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                                <h4 class="product-price">$980.00
+                                    <del class="product-old-price">$990.00</del>
+                                </h4>
+                            </div>
+                        </div>
+                        <!-- product widget -->
+                    </div>
+
+                    <div>
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <img alt="" src="{{ url_for('static', filename='image/product01.png') }}">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Category</p>
+                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                                <h4 class="product-price">$980.00
+                                    <del class="product-old-price">$990.00</del>
+                                </h4>
+                            </div>
+                        </div>
+                        <!-- /product widget -->
+
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <img alt="" src="{{ url_for('static', filename='image/product04.png') }}">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Category</p>
+                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                                <h4 class="product-price">$980.00
+                                    <del class="product-old-price">$990.00</del>
+                                </h4>
+                            </div>
+                        </div>
+                        <!-- /product widget -->
+
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <img alt="" src="{{ url_for('static', filename='image/product06.png') }}">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Category</p>
+                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                                <h4 class="product-price">$980.00
+                                    <del class="product-old-price">$990.00</del>
+                                </h4>
+                            </div>
+                        </div>
+                        <!-- product widget -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->
+</div>
+{% endblock content %}

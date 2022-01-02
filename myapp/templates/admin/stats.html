@@ -1,0 +1,141 @@
+{% extends 'admin/base.html' %}
+
+{% block body %}
+{{ msg }}
+{% if current_user.is_authenticated %}
+<h1 class="text-danger">welcome {{ current_user.first_name }} {{ current_user.last_name }} to our website</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <table border="2px">
+            <tr>
+                <th>Mã sản phẩm</th>
+                <th>Tên sản phẩm</th>
+                <th>Doanh thu</th>
+            </tr>
+            {% for p in stats %}
+            <tr>
+                <td>{{ p[0] }}</td>
+                <td>{{ p[1] }}</td>
+                <td>{{ p[2] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="col-md-6">
+        <form>
+            <div class="form-group">
+                <input class="form-control"
+                       name="kw"
+                       placeholder="Nhap tu khoa..."
+                       type="text"/>
+            </div>
+            <div class="form-group">
+                <input class="form-control"
+                       name="from_date"
+                       type="date"/>
+            </div>
+            <div class="form-group">
+                <input class="form-control"
+                       name="to_date"
+                       type="date"/>
+            </div>
+            <input class="btn btn-primary" type="submit" value="Thong ke"/>
+        </form>
+        <canvas height="400" id="myProductChart" width="400"></canvas>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 col-xs-12">
+        <table class="table">
+            <tr>
+                <th>Thang</th>
+                <th>Doanh thu</th>
+            </tr>
+            {% for s in month_stats %}
+            <tr>
+                <td>{{ s[0] }}</td>
+                <td>
+                    {{ "{:,.1f}".format(s[1]) }}VND
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="col-md-6 col-xs-12">
+        <form>
+            <div class="form-group">
+                <input class="form-control"
+                       name="year"
+                       placeholder="Nhap nam..."
+                       type="number"/>
+            </div>
+            <input class="btn btn-primary" type="submit" value="Thong ke"/>
+        </form>
+        <canvas height="400" id="myProductMonthChart" width="400"></canvas>
+    </div>
+</div>
+
+{% endif %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    let labels = [], labels2 = []
+    let data = [], data2 = []
+    {% for s in stats %}
+        {% if s[2] %}
+            labels.push('{{ s[1] }}')
+            data.push({{ s[2] }})
+        {% endif %}
+    {% endfor %}
+
+    {% for s in month_stats %}
+
+        labels2.push({{ s[0] }})
+        data2.push({{ s[1] }})
+
+    {% endfor %}
+
+    window.onload = function() {
+        let ctx = document.getElementById('myProductChart').getContext('2d');
+        showChart(ctx, labels, data, 'bar')
+
+        let ctx2 = document.getElementById('myProductMonthChart').getContext('2d')
+        showChart(ctx2, labels2, data2, 'line')
+    }
+
+    function showChart(ctx, labels, data, type) {
+        let colors = [], borderColors=[]
+        let r, g, b
+        for (let i = 0; i < labels.length; i++) {
+            r = parseInt(Math.random()*255)
+            g = parseInt(Math.random()*255)
+            b = parseInt(Math.random()*255)
+            colors.push(`rgba(${r}, ${g}, ${b}, 0.2)`)
+            borderColors.push(`rgba(${r}, ${g}, ${b}, 1)`)
+        }
+
+        const myChart = new Chart(ctx, {
+            type: type,
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Thong ke so san pham theo danh muc',
+                    data: data,
+                    backgroundColor: colors,
+                    borderColor: borderColors,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+</script>
+{% endblock %}

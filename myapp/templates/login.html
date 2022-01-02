@@ -1,0 +1,37 @@
+{% extends 'layout/base.html' %}
+
+{% block title %} Đăng nhập {% endblock title%}
+{% block content %}
+{% if err_msg %}
+<div class="text-center alert alert-danger">{{ err_msg }}</div>
+{% endif %}
+<div class="mx-auto col-md-6 p-5">
+    <h1 class="text-danger text-center">ĐĂNG NHẬP</h1>
+    <form method="post">
+        <div>
+            <label for="username">Username:</label>
+            <input class="form-control" id="username" name="username" placeholder="Enter username" type="text">
+        </div>
+        <div class="form-group">
+            <label for="pwd">Password:</label>
+            <input class="form-control" id="pwd" name="password" placeholder="Enter password" type="password">
+        </div>
+        <button class="btn btn-primary" type="submit">ĐĂNG NHẬP</button>
+    </form>
+</div>
+<div class="oauth-box">
+    <div id="oauth-google">
+        <a href="{{ url_for('google_login') }}">
+            <img alt="Google logo"
+                 height="55px" src="{{ url_for('static', filename='/images/google-logo.png') }}" width="55px">
+        </a>
+    </div>
+    <div>
+        <a href="{{ url_for('github_login') }}">
+            <img alt="Github logo"
+                 height="42px" src="{{ url_for('static', filename='/images/github-logo.png') }}" width="41px">
+        </a>
+    </div>
+</div>
+
+{% endblock content%}

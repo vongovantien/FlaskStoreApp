@@ -1,0 +1,111 @@
+<!-- HEADER -->
+<header>
+    <!-- TOP HEADER -->
+    <div id="top-header">
+        <div class="container">
+            <ul class="header-links pull-left">
+                <li><a href="#"><i class="fa fa-phone"></i> 0329292209</a></li>
+                <li><a href="#"><i class="fa fa-envelope-o"></i> vongovantien@email.com</a></li>
+                <li><a href="#"><i class="fa fa-map-marker"></i> 1225 Vĩnh Tuy, Long Tân, Nhơn Trạch, Đồng Nai</a></li>
+            </ul>
+
+            <ul class="header-links pull-right">
+                {% if current_user.is_authenticated %}
+                <li>
+                    <a class="nav-link text-danger" href="{{ url_for('home') }}">
+                        {% if current_user.avatar.startswith('https') %}
+                        <img alt="{{ current_user.username }}" class="rounded-circle" src="{{ current_user.avatar }}"
+                             width="50"/>
+                        {% else %}
+                        <img alt="{{ current_user.username }}" class="rounded-circle"
+                             src="{{ url_for('static', filename=current_user.avatar) }}"
+                             width="50"/>
+                        {% endif %}
+                        <a class="nav-link" href="{{ url_for('user', user_id=current_user.id )}}">{{
+                            current_user.username }}</a>
+                    </a>
+                </li>
+                <li><a href="{{ url_for('logout') }}">Đăng xuất</a></li>
+                {% else %}
+                <li><a href="{{url_for('register')}}">Đăng ký </a></li>
+                <li><a href="{{url_for('login')}}">Đăng nhập </a></li>
+            </ul>
+            {% endif %}
+
+        </div>
+    </div>
+    <!-- /TOP HEADER -->
+
+    <!-- MAIN HEADER -->
+    <div id="header">
+        <!-- container -->
+        <div class="container d-flex justify-content-center">
+            <!-- row -->
+            <div class="row">
+                <!-- LOGO -->
+                <div class="col-md-3">
+                    <div class="header-logo">
+                        <a class="logo" href="{{ url_for('home')}}">
+                            <img alt="logo" src="{{url_for('static', filename='image/logo.png')}}">
+                        </a>
+                    </div>
+                </div>
+                <!-- /LOGO -->
+
+                <!-- SEARCH BAR -->
+                <div class="col-md-6">
+                    <div class="header-search">
+                        <form style="display:flex">
+                            <input class="input input-select" name="kw" placeholder="Search here">
+                            <button class="search-btn">Search</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- /SEARCH BAR -->
+
+                <!-- ACCOUNT -->
+                <div class="col-md-3">
+                    <div class="header-ctn">
+                        <!-- Cart -->
+                        <div class="dropdown">
+                            <a href="{{ url_for('view_cart')}}">
+                                <i class="fa fa-shopping-cart"></i>
+                                <span>Your Cart</span>
+                                <div class="qty" id="cartCounter">{{ cart_stats.total_quantity }}</div>
+                            </a>
+                        </div>
+                        <!-- /Cart -->
+                    </div>
+                </div>
+                <!-- /ACCOUNT -->
+            </div>
+            <!-- row -->
+        </div>
+        <!-- container -->
+    </div>
+    <!-- /MAIN HEADER -->
+</header>
+<!-- /HEADER -->
+
+<!-- NAVIGATION -->
+<nav id="navigation">
+    <!-- container -->
+    <div class="container p-2">
+        <!-- responsive-nav -->
+        <div id="responsive-nav">
+            <!-- NAV -->
+            <ul class="main-nav nav navbar-nav">
+                <li class="{% if 'category_id' is not in request.args %} active {% endif %}"><a href="{{ url_for('home')}}">Home</a></li>
+                {% for c in categories %}
+                <li class="{% if 'category_id' is in request.args and request.args.get('category_id') == c.id %} active {% endif %}">
+                    <a href="{{ url_for('product_list', category_id=c.id) }}">{{ c.name }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+            <!-- /NAV -->
+        </div>
+        <!-- /responsive-nav -->
+    </div>
+    <!-- /container -->
+</nav>
+<!-- /NAVIGATION -->

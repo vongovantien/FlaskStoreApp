@@ -1,0 +1,89 @@
+{% extends 'admin/base.html' %}
+
+{% block body %}
+{% block head_css %}
+{{ super() }}
+<link href="/static/css/admin.css" rel="stylesheet">
+{% endblock %}
+
+{{ msg }}
+{% if current_user.is_authenticated %}
+<h1 class="text-danger">welcome {{ current_user.first_name }} {{ current_user.last_name }} to our website</h1>
+<div class="row">
+    <div class="col-md-6">
+        <table border="2px">
+            <tr>
+                <th>Ma danh muc</th>
+                <th>Ten danh muc</th>
+                <th>So luong san pham</th>
+            </tr>
+            {% for p in stats %}
+            <tr>
+                <th>{{ p[0] }}</th>
+                <th>{{ p[1] }}</th>
+                <th>{{ p[2] }}</th>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="col-md-6">
+        <canvas height="400" id="myChart" width="400"></canvas>
+    </div>
+</div>
+
+{% else %}
+<form action="{{ url_for('admin_login') }}" method="post">
+    <div class="form-group">
+        <label for="username">Email address:</label>
+        <input class="form-control" id="username" name="username" placeholder="Enter user" type="text">
+    </div>
+    <div class="form-group">
+        <label for="pwd">Password:</label>
+        <input class="form-control" id="pwd" name="password" placeholder="Enter password" type="password">
+    </div>
+    <button class="btn btn-primary" type="submit">Đăng nhập</button>
+</form>
+{% endif %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    let labels = [], info = [], colors = [], borders = []
+    {% for s in stats %}
+        labels.push('{{ s[1] }}')
+        info.push('{{ s[2] }}')
+
+        r = Math.random()*255
+        g = Math.random()*255
+        b = Math.random()*255
+
+        colors.push(`rgba(${r}, ${g}, ${b}, 1)`)
+        borders.push(`rgba(${r}, ${g}, ${b}, 1)`)
+
+    {% endfor %}
+
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Thống kê sản phẩm theo danh mục",
+                data: info,
+                backgroundColor: colors,
+                borderColor: borders,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+
+
+
+</script>
+{% endblock %}

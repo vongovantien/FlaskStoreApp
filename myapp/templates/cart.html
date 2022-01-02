@@ -1,0 +1,60 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}
+Giỏ hàng
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center">Giỏ hàng</h2>
+    {% if 'cart' in session and session['cart'] %}
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Mã sản phẩm</th>
+            <th>Tên sản phẩm</th>
+            <th>Số lượng</th>
+            <th>Đơn giá</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for c in session['cart'].values() %}
+        <tr id="product{{ c.id }}">
+            <td>{{ c.id }}</td>
+            <td>{{ c.name }}</td>
+            <td>
+                <div class="form-group">
+                    <input class="form-control" min="1" onblur="updateCart({{ c.id }}, this)" type="number" value="{{ c.quantity }}">
+                </div>
+            </td>
+            <td>{{ c.price }}</td>
+            <td>
+                <input class="btn btn-danger" type="button" onclick="deleteCart({{ c.id }})" value="Delete">
+            </td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td>Tổng số sản phẩm</td>
+            <td class="text-center text-danger cart-counter" colspan="4">{{ stats.total_quantity }}</td>
+        </tr>
+        <tr>
+            <td>Tổng tiền phải trả</td>
+            <td class="text-center text-danger" id="total-amount" colspan="4">{{ "{:,.1f}".format(stats.total_amount) }} VNĐ</td>
+        </tr>
+        </tbody>
+    </table>
+    {% if current_user.is_authenticated %}
+    <div class="text-center">
+        <input class="btn btn-success" onclick="pay()" type="submit" value="Thanh toán">
+    </div>
+    {% else %}
+    <a class="nav-link" href="{{ url_for( 'login', next='cart' ) }}"> Đăng nhập để thanh toán</a>
+    {% endif%}
+    {% else %}
+    <p class="text-center text-danger"> Không có sản phẩm nào trong giỏ</p>
+    {% endif %}
+    <br><br>
+</div>
+{% endblock %}

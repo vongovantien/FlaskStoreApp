@@ -1,0 +1,65 @@
+{% extends 'layout/base.html'%}
+{% block title%} Thông tin cá nhân {% endblock title%}
+{% block content%}
+
+<div class="page-content page-container" id="page-content">
+    <div class="padding">
+        <div class="container">
+            <div class="col-md-12">
+                <div class="card user-card-full">
+                    <div class="row m-l-0 m-r-0">
+                        <div class="col-sm-4 bg-c-lite-green user-profile">
+                            <div class="card-block text-center text-white">
+                                {% if user.avatar %}
+                                <div class="m-b-25"><img alt="User-Profile-Image" class="img-radius w-100 "
+                                                         src="{{ user.avatar }}"></div>
+                                {% else %}
+                                <div class="m-b-25"><img alt="User-Profile-Image"
+                                                         class="img-radius"
+                                                         src="https://img.icons8.com/bubbles/100/000000/user.png"></div>
+                                {% endif %}
+                                <h6 class="f-w-600">{{ user.first_name }} {{ user.last_name }}</h6>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="card-block">
+                                    <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Information</h6>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <p class="m-b-10 f-w-600">Email</p>
+                                            <h6 class="text-danger f-w-400">{{ user.email }}</h6>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <p class="m-b-10 f-w-600">Phone</p>
+                                            <h6 class="text-muted f-w-400">{{ user.phone }}</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                    <form class="container" action="{{ url_for('user', user_id=user.id) }}" method="post">
+                        <div class="form-group">
+                            <label for="old">Old password:</label>
+                            <input class="form-control" id="old" name="old_password" placeholder="Enter old password"
+                                   type="password">
+                        </div>
+                        <div class="form-group">
+                            <label for="pwd">New Password:</label>
+                            <input class="form-control" id="pwd" name="new_password" placeholder="Enter new password"
+                                   type="password">
+                        </div>
+                        <div class="form-group">
+                            <label for="pwd">Confirm new password:</label>
+                            <input class="form-control" name="confirm" placeholder="Enter new password" type="password">
+                        </div>
+                        <input class="btn btn-primary" type="submit" value="Đổi mật khẩu">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
