@@ -9,14 +9,18 @@ from authlib.integrations.flask_client import OAuth
 import os
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://eqtvoptdynfoee:5f67ccc2cee25ebc3b3184b930666426919bb7a1c7d6c2ba33cf98e4f0171311@ec2-52-86-177-34.compute-1.amazonaws.com:5432/d17deug4266b03"
 
 app.config["GOOGLE_CLIENT_ID"] = '811591875550-t8c97gln5ej8k2q7po2qnr576g3mmkms.apps.googleusercontent.com'
 app.config["GOOGLE_CLIENT_SECRET"] = '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'
 app.config["GITHUB_CLIENT_ID"] = '2daf9689e45e70ca3931'
 app.config["GITHUB_CLIENT_SECRET"] = 'c6d06bdf045792cb0165f3d6a27b824e159a928f'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123456@localhost/saledb'
+
+
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123456@localhost/saledb'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
+
+
 app.secret_key = 'hifgsdfgahrt5àygsffhj6jj45YTẺTGHMKẠtrtfDFG'
 app.config['PAGE_SIZE'] = 5
 app.config['COMMENT_SIZE'] = 4
